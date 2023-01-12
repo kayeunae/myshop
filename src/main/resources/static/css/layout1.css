@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+/* 초기화 코드 */
+html {
+	position: relative;
+	min-height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	min-height: 100%;
+}
+
+/* footer.html */
+footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	padding: 15px 0;
+	text-align: center;
+}
+
+/* layout1.html */
+.content {
+	margin: 50px 200px 100px 200px;
+}
