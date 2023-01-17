@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" th:src="@{/js/cookie.js}"></script>
+
+<!-- 각 페이지에 script가 작성될 위치 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		//쿠키를 이용한 아이디 기억
+		$(document).ready(function() {
+			var userInputId = getCookie("userInputId");	//쿠키의 key! 키로 값을 가져온다. (현재 상태에는 저장된 것이 없어서 가져올 것이 없다.)
+			var setCookieYN = getCookie("setCookieYN");
+			
+			//제이쿼리로 작성 !
+			if(setCookieYN == 'Y') {
+				$("#id_save").prop("checked", true); //체크 박스를 체크 상태로 만들어준다.
+				$("#email").val(userInputId);	//이메일 인풋 창에 저장된 이메일을 띄워준다.
+			} else {
+				$("#id_save").prop("checked", false);  //체크 해제
+			}
+		
+			//로그인 버튼 클릭
+			$('#loginbtn').click(function(){
+				//아이디를 쿠키에 저장
+				if($("#id_save").is(":checked")) {	//아이디 기억하기 체크박스가 체크되어있으면 true 리턴 !
+					var userInputId = $("#email").val();  //input창에 입력된 email 값을 가져온다.
+					setCookie("userInputId", userInputId, 60);	//60일 동안 쿠키 저장
+					setCookie("setCookieYN", "Y", 60);	//쿠키 저장 여부 파악
+				} else {							//체크박스가 해제되면 쿠키를 삭제한다.
+					deleteCookie("userInputId");
+					deleteCookie("setCookieYN");
+				}
+			});
+		});
+	</script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+     .error {
+        color: #bd2130;
+     }
+  </style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form class="row g-3" action="/members/login" method="post">
+			<div>
+				<label th:for="name">이메일</label>
+				<input type="email" name="email" id="email" class="form-control" placeholder="이메일을 입력해주세요.">
+			</div>
+			<div>
+				<label th:for="password">비밀번호</label>
+				<input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력해주세요.">
+			</div>
+			<div>
+				<!-- loginErrorMsg가 있다면, 텍스트로 loginErrorMsg 를 출력한다. -->
+				<p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
+				<label><input type="checkbox" name="id_save" id="id_save">아이디 기억하기</label>
+				<button type="submit" class="btn btn-primary mb-3" id="loginbtn">로그인</button>	
+				<!-- 회원가입 페이지로 이동하는 버튼 -->
+				<button type="button" class="btn btn-primary mb-3" onClick="location.href='/members/new'">회원가입</button>
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+		</form>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
