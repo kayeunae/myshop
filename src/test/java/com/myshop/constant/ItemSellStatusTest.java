@@ -69,8 +69,8 @@ class ItemSellStatusTest {
 		item.setItemDetail("테스트 상품 상세설명" + i);
 		item.setItemSellStatus(ItemSellStatus.SELL);
 		item.setStockNumber(100);
-		item.setRegTime(LocalDateTime.now());	//LocalDateTime에서 현재 날짜와 시간 저장
-		item.setUpdateTime(LocalDateTime.now());
+//		item.setRegTime(LocalDateTime.now());	//LocalDateTime에서 현재 날짜와 시간 저장
+//		item.setUpdateTime(LocalDateTime.now());
 		
 		Item savedItem = itemRepository.save(item);	//데이터 insert
 		}
@@ -84,8 +84,8 @@ class ItemSellStatusTest {
 		item.setItemDetail("테스트 상품 상세설명" + i);
 		item.setItemSellStatus(ItemSellStatus.SELL);
 		item.setStockNumber(100);
-		item.setRegTime(LocalDateTime.now());	//LocalDateTime에서 현재 날짜와 시간 저장
-		item.setUpdateTime(LocalDateTime.now());
+//		item.setRegTime(LocalDateTime.now());	//LocalDateTime에서 현재 날짜와 시간 저장
+//		item.setUpdateTime(LocalDateTime.now());
 		
 		Item savedItem = itemRepository.save(item);	//데이터 insert
 		}
@@ -97,8 +97,8 @@ class ItemSellStatusTest {
 			item.setItemDetail("테스트 상품 상세설명" + i);
 			item.setItemSellStatus(ItemSellStatus.SOLD_OUT);
 			item.setStockNumber(0);
-			item.setRegTime(LocalDateTime.now());	//LocalDateTime에서 현재 날짜와 시간 저장
-			item.setUpdateTime(LocalDateTime.now());
+//			item.setRegTime(LocalDateTime.now());	//LocalDateTime에서 현재 날짜와 시간 저장
+//			item.setUpdateTime(LocalDateTime.now());
 			
 			Item savedItem = itemRepository.save(item);	//데이터 insert
 			}

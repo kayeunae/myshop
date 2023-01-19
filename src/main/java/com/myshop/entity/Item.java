@@ -23,7 +23,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity {
 	//Not null이 아닐 때는 필드 타입을 객체 (예. int - Integer)로 지정해야 한다.
 	
 	@Id
@@ -46,8 +46,4 @@ public class Item {
 	
 	@Enumerated(EnumType.STRING)	//값을 그대로 저장. ORDINAL은 인덱스 번호로 저장. 열거형을 사용하면 해당 컬럼은 enum에 설정한 값만을 가질 수 있음. 여기서는 둘 중 하나만 !
 	private ItemSellStatus itemSellStatus;	//상품 판매상태
-
-	private LocalDateTime regTime;	//등록 시간
-	
-	private LocalDateTime updateTime;	//수정 시간
 }
