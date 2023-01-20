@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.repository.Temporal;
 
 import com.myshop.constant.ItemSellStatus;
+import com.myshop.dto.ItemFormDto;
 
 import lombok.*;
 
@@ -46,4 +47,13 @@ public class Item extends BaseEntity {
 	
 	@Enumerated(EnumType.STRING)	//값을 그대로 저장. ORDINAL은 인덱스 번호로 저장. 열거형을 사용하면 해당 컬럼은 enum에 설정한 값만을 가질 수 있음. 여기서는 둘 중 하나만 !
 	private ItemSellStatus itemSellStatus;	//상품 판매상태
+	
+	
+	public void updateItem(ItemFormDto itemFormDto) {
+		this.itemNm = itemFormDto.getItemNm();
+		this.price = itemFormDto.getPrice();
+		this.stockNumber = itemFormDto.getStockNumber();
+		this.itemDetail = itemFormDto.getItemDetail();
+		this.itemSellStatus = itemFormDto.getItemSellStatus();
+	}
 }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- 각 페이지의 스크립트가 작성될 위치 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+    $(document).ready(function(){
+        $("#searchBtn").on("click",function(e) {
+            e.preventDefault();
+            page(0);
+        });
+    });
+
+    function page(page){
+        var searchDateType = $("#searchDateType").val();
+        var searchSellStatus = $("#searchSellStatus").val();
+        var searchBy = $("#searchBy").val();
+        var searchQuery = $("#searchQuery").val();
+
+        location.href="/admin/items/" + page + "?searchDateType=" + searchDateType
+        + "&searchSellStatus=" + searchSellStatus
+        + "&searchBy=" + searchBy
+        + "&searchQuery=" + searchQuery;
+    }
+	</script>
+</th:block>
+
+<!-- 각 페이지의 CSS가 작성될 위치 -->
+<th:block layout:fragment="css">
+	<style>
+		select {
+			margin-right: 10px;
+		}
+	</style>
+</th:block>
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- ${items.number} : 현재 페이지 넘버 -->
+		<form th:action="@{'/admin/items/' + ${items.number}}" role="form" method="get" th:object="${items}">
+			<table class="table">
+			  <thead>
+			    <tr>
+			      <th scope="col">상품아이디</th>
+			      <th scope="col">상품명</th>
+			      <th scope="col">상태</th>
+			      <th scope="col">등록자</th>
+			      <th scope="col">등록일</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<!-- ${items.getContent()} : 조회된 데이터를 가져온다. (List 타입으로 변환. each를 쓸 때는 List여야 함) -->
+			    <tr th:each="item, status: ${items.getContent()}">
+			      <th th:text="${item.id}" scope="row"></th>
+			      <td>
+			      	<a th:href="'/amdin/item/' + ${item.id}" th:text="${item.itemNm}"></a>
+			      </td>
+			      <!-- T: 타임리프가 제공하는 기능으로, 스프링 내에 있는 클래스에 접근하여 요소를 가져올 수 있음 -->
+			      <td th:text="${item.itemSellStatus == T(com.myshop.constant.ItemSellStatus).SELL ? '판매중' : '품절'}"></td>
+			      <td th:text="${item.createdBy}"></td>
+			      <td th:text="${item.regTime}"></td>
+			    </tr>
+			  </tbody>
+			</table>
+			
+			<!-- 페이징 버튼
+				 with: 변수값을 정의할 때 사용, maxPage는 5로 지정해놓음.
+				 start와 end 공식
+				 start = (현재 페이지 번호/보여줄 페이지수) + 1, 페이지 시작 번호
+				 end = start + (보여줄 페이지 수 -1), 페이지 끝 번호 -->
+			<nav th:with="start=${(items.number/maxPage)*maxPage + 1}, 
+						  end=(${(items.totalPages == 0) ? 1 : (start + (maxPage -1) < items.totalPages ? start + (maxPage -1) : items.totalPages)})" 
+				aria-label="Page navigation example">
+			  <ul class="pagination d-flex justify-content-center">
+			    <li class="page-item" th:classappend="${items.first}? 'disabled'">
+			    	<a class="page-link" th:onclick="'javascript:page(' + ${items.number - 1} + ')'">Previous</a>
+			    </li>
+			    <li class="page-item" th:each="page: ${numbers.sequence(start, end)}">
+			    	<!-- 타임리프에서 변수 출력하는 방법 : [[${변수명}]] -->
+			    	<!-- 보이는 화면에서는 페이지가 1부터 시작하지만, 코드에서는 0부터 시작하기 때문에 -1 해준다. -->
+			    	<!-- th:inline="text" : [[${page}]]를 텍스트로 출력함 -->
+			    	<a class="page-link" th:inline="text" th:onclick="'javascript:page(' + ${page - 1} + ')'">[[${page}]]</a>
+			    </li>
+			    <li class="page-item" th:classappend="${items.last}? 'disabled'">
+			    	<a class="page-link" th:onclick="'javascript:page(' + ${items.number + 1} + ')'">Next</a>
+			    </li>
+			  </ul>
+			</nav>
+			
+			<!-- 검색창 -->
+			<div class="d-flex justify-content-center" th:object="${itemSearchDto}" style="height:40px;">
+			<!-- 상품 등록일  -->
+				<select th:field="*{searchDateType}" class="form-select">
+				  <option value="all">전체기간<option>
+				  <option value="1d">1일</option>
+				  <option value="1w">1주</option>
+				  <option value="1m">1개월</option>
+				  <option value="6m">6개월</option>
+				</select>
+				
+			<!-- 상품판매 상태 -->
+			<select th:field="*{searchSellStatus}" class="form-select" style="width:auto;">
+			  <option value="SELL">판매</option>
+			  <option value="SOLD_OUT">품절</option>
+			</select>
+			
+			<!-- 상품명, 등록자 선택 -->
+			<select th:field="*{searchBy}" class="form-select" style="width:auto;">
+			  <option value="itmeNm">판매</option>
+			  <option value="createdBy">품절</option>
+			</select>
+			
+			<!-- 검색창 -->
+			<input type="text" th:field="*{searchQuery}" class="form-control" placeholde="검색어 입력" style="width:auto;">
+			<button id="searchBtn" type="submit" class="btn btn-primary mb-3" style="height:100%;">검색</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

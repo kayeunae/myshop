@@ -22,7 +22,7 @@ public class ItemImgDto {
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
-	public static ItemImgDto of(ItemImg itemImg) {
+	public static ItemImgDto of(ItemImg itemImg) {	//엔티티 클래스와 dto클래스를 효율적으로 변환시켜줌
 		return modelMapper.map(itemImg, ItemImgDto.class);
 	}
 }
