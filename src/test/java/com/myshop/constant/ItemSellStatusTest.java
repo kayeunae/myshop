@@ -104,18 +104,19 @@ class ItemSellStatusTest {
 			}
 	}
 	
-	/*
+	
 	@Test
 	@DisplayName("상품명 조회 테스트")
 	public void findbyItemNmTest() {
 		this.createItemTest();	//item 테이블에 insert
-		List<Item> itemList = itemRepository.findByItemNm("테스트 상품2");
+		List<Item> itemList = itemRepository.findByItemNm("테스트 상품1");
 		// itemNM이 테스트 상품1 인 레코드를 반환할 것
 		for(Item item : itemList) {
 			System.out.println(item.toString());
 		}
 	}
 	
+	/*
 	@Test
 	@DisplayName("상품명, 상품상세설명 or 테스트")
 	public void findByItemNmOrItemDetail() {
@@ -240,8 +241,8 @@ class ItemSellStatusTest {
 	}
 	*/
 	
-	@Test
-	@DisplayName("@Query 퀴즈2-2")
+//	@Test
+//	@DisplayName("@Query 퀴즈2-2")
 	public void findByItemNmAndSellTest() {
 		this.createItemTest();
 		List<Item> itemList = itemRepository.findByItemNmAndSell("테스트 상품1", ItemSellStatus.SELL);
@@ -274,8 +275,8 @@ class ItemSellStatusTest {
 	}
 	
 	//검색 기능과 유사한 코드 수행
-	@Test
-	@DisplayName("querydsl 조회 테스트")
+//	@Test
+//	@DisplayName("querydsl 조회 테스트")
 	public void queryDslTest2() {
 		this.createItemTest2();
 		JPAQueryFactory qf = new JPAQueryFactory(em);	//JPAQueryFactory: 쿼리를 동적으로 생성하기 위한 객체

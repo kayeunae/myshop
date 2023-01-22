@@ -18,8 +18,8 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
 	
 	//JPA 쿼리 메소드(메소드명은 샘플을 참고하여 항상 맞춰서 적어줘야 한다.)
 	
-	//select * from item where item_nm = ? (물음표 자리는 매개변수로 받음)
 	//find 메소드는 where의 역할. 사용은 test code에서 !
+	//select * from item where item_nm = ? (물음표 자리는 매개변수로 받음)
 	List<Item> findByItemNm(String itemNm);
 	
 	//select * from item where item_nm ? or item_detail = ?
