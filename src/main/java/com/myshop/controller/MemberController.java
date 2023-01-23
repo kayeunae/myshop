@@ -51,7 +51,7 @@ public class MemberController {
 		try {
 			Member member = Member.createMember(memberFormDto, passwordEncoder);
 			memberService.saveMember(member);
-		} catch (Exception e) {
+		} catch (IllegalStateException e) {
 			//memberForm.html의 script에 있는 errorMessage로 간다.
 			model.addAttribute("errorMessage", e.getMessage());
 			return "member/memberForm";

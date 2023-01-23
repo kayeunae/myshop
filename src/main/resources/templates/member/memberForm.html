@@ -10,7 +10,7 @@
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
 		//회원가입이 실패했을 때
-		$(document).ready(function{
+		$(document).ready(function(){
 			var errorMessage = [[${errorMessage}]];	//중괄호로 감싸서 값을 받아온다.
 			if(errorMessage != null) {
 				alert(errorMessage);
