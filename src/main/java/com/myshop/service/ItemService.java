@@ -41,7 +41,7 @@ public class ItemService {
 			ItemImg itemImg = new ItemImg();
 			itemImg.setItem(item);
 			
-			//첫 번째 이미지일 때 대표 상품 이미지 여부 지정
+			//첫 번째 이미지를 대표 이미지로 지정
 			if(i == 0) {
 				itemImg.setRepimgYn("Y");
 			} else {

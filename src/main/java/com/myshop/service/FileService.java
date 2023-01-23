@@ -13,10 +13,10 @@ import lombok.extern.java.Log;
 public class FileService {
 	//파일 업로드
 	//byte[] fileData: 파일 자체를 받는 것
-	public String uploadFile(String uploadPath, String orighinalFileName, byte[] fileData) throws Exception {
+	public String uploadFile(String uploadPath, String originalFileName, byte[] fileData) throws Exception {
 		UUID uuid = UUID.randomUUID();	//중복되지 않은 랜덤한 파일이름 생성
 		
-		String extension = orighinalFileName.substring(orighinalFileName.lastIndexOf(".")); //확장자명
+		String extension = originalFileName.substring(originalFileName.lastIndexOf(".")); //확장자명
 		String savedFileName = uuid.toString() + extension;	//파일 이름 생성
 		String fileUploadFullUrl = uploadPath + "/" + savedFileName;
 		
