@@ -81,10 +81,11 @@
 			    <li class="page-item" th:classappend="${items.first}? 'disabled'">
 			    	<a class="page-link" th:onclick="'javascript:page(' + ${items.number - 1} + ')'">Previous</a>
 			    </li>
-			    <li class="page-item" th:each="page: ${numbers.sequence(start, end)}">
-			    	<!-- 타임리프에서 변수 출력하는 방법 : [[${변수명}]] -->
+			    	<!-- 타임리프에서 변수 출력하는 방법 : -->
 			    	<!-- 보이는 화면에서는 페이지가 1부터 시작하지만, 코드에서는 0부터 시작하기 때문에 -1 해준다. -->
 			    	<!-- th:inline="text" : [[${page}]]를 텍스트로 출력함 -->
+			    <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
+			    th:classappend="${items.number eq page-1}?'active':''">
 			    	<a class="page-link" th:inline="text" th:onclick="'javascript:page(' + ${page - 1} + ')'">[[${page}]]</a>
 			    </li>
 			    <li class="page-item" th:classappend="${items.last}? 'disabled'">
@@ -93,15 +94,20 @@
 			  </ul>
 			</nav>
 			
+			<!-- 값을 모르겠을 때 아래와 같이 찍어주면 html 화면에 띄울 수 있다. -->
+			items.number: [[${items.number}]]
+			
 			<!-- 검색창 -->
 			<div class="d-flex justify-content-center" th:object="${itemSearchDto}" style="height:40px;">
 			<!-- 상품 등록일  -->
 				<select th:field="*{searchDateType}" class="form-select">
-				  <option value="all">전체기간<option>
+				  <option value="all">전체기간</option>
 				  <option value="1d">1일</option>
 				  <option value="1w">1주</option>
 				  <option value="1m">1개월</option>
 				  <option value="6m">6개월</option>
+
+
 				</select>
 				
 			<!-- 상품판매 상태 -->

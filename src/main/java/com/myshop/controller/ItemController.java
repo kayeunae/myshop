@@ -101,6 +101,7 @@ public class ItemController {
 		return "redirect:/";
 	}
 	
+	//상품 관리 페이지 보기
 	//두 개 이상의 주소를 매핑할 때는 아래와 같은 방식으로 작성해줘야 한다.
 	@GetMapping(value = {"/admin/items", "/admin/items/{page}"}) //페이지 번호가 없는 경우와 있는 경우 2가지를 매핑
 	public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
@@ -118,9 +119,12 @@ public class ItemController {
 		return "item/itemMng";
 	}
 	
+	//상품 상세페이지 (메인 -> 상세페이지)
+	@GetMapping(value = "/item/{itemId}")
+	public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
+		ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+		model.addAttribute("item", itemFormDto);
+		return "item/itemDtl";
+	}
 	
 }
-
-
-
-
