@@ -4,8 +4,9 @@
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
-
 <!-- 각 페이지의 스크립트가 작성될 위치 -->
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
@@ -23,6 +24,46 @@
 		var totalPrice = price * count;
 		
 		$('#totalPrice').html(totalPrice + '원');
+	}
+	
+	function order() {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		var url = "/order";
+		
+		//객체 데이터를 만들어준다.
+		var paramData = {
+				itemId : $("#itemId").val(),
+				count : $("#count").val(),
+		};
+		
+		var param = JSON.stringify(paramData);		//JSON.stringify() : json 데이터를 문자열로 변환해줌
+		
+		$.ajax({
+			url: url,	//request할 url
+			type: "POST",
+			contentType: "application/json",	//요청 컨텐츠 타입. json형태로 request한다 !
+			data: param,	 //controller에 넘겨줄 데이터
+			beforeSend: function(xhr) {		//전송전에 해야 할 작업
+				xhr.setRequestHeader(header, token);	//데이터 전송 전에 헤더에 csrf 값 설정
+			},
+			dataType: "json",	//controller에서 할 응답 데이터 형식
+			cache: false,
+			success: function(result, status){	//controller에서 보낸 결과인 result, 그 결과의 상태인 status (예. 200)
+				//alert("orderId: " + result);
+				alert("주문이 완료되었습니다.")
+				location.href = '/';
+			},
+			error: function(jqXHR, status, error){
+				if(jqXHR.status == '401') {
+					alert('로그인 후 이용하시오.');
+					location.href = '/members/login';
+				} else {
+					alert(jqXHR.responseText);	//에러 메세지를 띄워준다.
+				}
+			}
+		})
 	}
 		
 	</script>
